@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>HCTMM - Medicode</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #000;
+      color: #00bfff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .container {
+      border: 2px solid #ffffff;
+      border-radius: 16px;
+      padding: 40px 25px;
+      width: 350px;
+      max-width: 90vw;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      background-color: #000; /* Ensure border and background contrast */
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+    }
+
+    .logo-container {
+      background: white;
+      border-radius: 50%;
+      padding: 14px;
+      box-shadow: 0 4px 12px rgba(255, 255, 255, 0.2);
+      margin-bottom: 25px;
+      width: 80px;
+      height: 80px;
+    }
+
+    .logo {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      border-radius: 50%;
+    }
+
+    h1 {
+      font-size: 1.8rem;
+      margin-bottom: 12px;
+      color: #00bfff;
+      text-align: center;
+    }
+
+    .subtext {
+      font-size: 0.95rem;
+      color: #ccc;
+      margin-bottom: 25px;
+      text-align: center;
+    }
+
+    label {
+      font-size: 1rem;
+      color: #ffffff;
+      margin-bottom: 8px;
+      font-weight: 500;
+      align-self: flex-start;
+    }
+
+    .captcha-input {
+      width: 100%;
+      padding: 10px 14px;
+      font-size: 1.2rem;
+      text-align: center;
+      letter-spacing: 5px;
+      border-radius: 10px;
+      border: 1.8px solid #00bfff;
+      background-color: #fff;
+      color: #000;
+      outline: none;
+      margin-bottom: 25px;
+    }
+
+    .captcha-input::placeholder {
+      color: #bbb;
+      letter-spacing: 5px;
+    }
+
+    .submit-btn {
+      padding: 10px 0;
+      width: 150px;
+      border-radius: 25px;
+      font-size: 1rem;
+      font-weight: 600;
+      background: #00bfff;
+      color: #000;
+      border: none;
+      cursor: pointer;
+      transition: background 0.3s;
+      margin-bottom: 25px;
+    }
+
+    .submit-btn:hover {
+      background: #0080cc;
+      color: white;
+    }
+
+    .back-btn {
+      background: #dc3545;
+      color: white;
+      border: none;
+      padding: 8px 18px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 3px 8px rgba(220, 53, 69, 0.5);
+      transition: background 0.3s;
+    }
+
+    .back-btn:hover {
+      background: #a71d2a;
+    }
+
+    /* Optional: smooth fade-in animation */
+    .container {
+      animation: fadeIn 0.6s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <!-- Logo -->
+    <div class="logo-container">
+      <img src="logo.png" alt="Medicode Logo" class="logo" />
+    </div>
+
+    <!-- Title -->
+    <h1>Medicode</h1>
+    <div class="subtext">Secure access — please verify the captcha</div>
+
+    <!-- Captcha Label -->
+    <label for="captcha">Enter the Captcha</label>
+
+    <!-- Captcha Input -->
+    <input
+      type="text"
+      id="captcha"
+      maxlength="6"
+      class="captcha-input"
+      placeholder="......"
+    />
+
+    <!-- Submit Button -->
+    <button class="submit-btn" onclick="submitCaptcha()">Submit</button>
+
+    <!-- Back Button -->
+    <button class="back-btn" onclick="goBack()">Back</button>
+  </div>
+
+  <script>
+    function submitCaptcha() {
+      const captcha = document.getElementById('captcha').value.trim();
+      if (!/^\d{6}$/.test(captcha)) {
+        alert("Please enter a valid 6-digit captcha.");
+        return;
+      }
+      alert("Captcha submitted: " + captcha);
+    }
+
+    function goBack() {
+      window.history.back();
+    }
+  </script>
+
+</body>
+</html>
+
+
+
+

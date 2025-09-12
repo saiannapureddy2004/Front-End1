@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Oxygen Level Check</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: #000;
+    font-family: 'Inter', sans-serif;
+    color: #e1e8f0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+
+  .fixed-size {
+    width: 21.5cm;
+    height: 13.5cm;
+    padding: 20px 25px;
+    background: #000;
+    border: 2px solid #fff;
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    user-select: none;
+    position: relative;
+  }
+
+  /* Circle for Oxygen logo */
+  .logo-container {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: white;
+    box-shadow: 0 4px 15px rgba(0, 191, 255, 0.3);
+    margin-bottom: 20px;
+    overflow: hidden;
+    font-size: 80px; /* make logo larger */
+  }
+
+  /* Scrolling heading */
+  .scrolling-heading {
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    border-bottom: 1px solid white;
+    padding-bottom: 8px;
+    margin-bottom: 20px;
+    display: none;
+  }
+  .scrolling-text {
+    display: inline-block;
+    padding-left: 100%;
+    animation: scrollText 8s linear infinite;
+    font-size: 22px;
+    font-weight: 600;
+    color: #00bfff;
+  }
+  @keyframes scrollText {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-100%); }
+  }
+
+  /* Check Button */
+  button#check-btn {
+    background: linear-gradient(135deg, #111, #222);
+    border: 2px solid #00bfff;
+    border-radius: 12px;
+    color: #00bfff;
+    font-weight: 600;
+    font-size: 22px;
+    padding: 12px 50px;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0, 191, 255, 0.3);
+    margin-bottom: 20px;
+  }
+  button#check-btn:hover:enabled {
+    background: #00bfff; color: #000;
+  }
+  button#check-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+  /* Result box */
+  .result-display {
+    width: 70%;           
+    max-width: 360px;     
+    background-color: #111;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-weight: 500;
+    font-size: 18px;
+    color: #e1e8f0;
+    text-align: center;
+    padding: 15px 20px;        
+    margin-bottom: 50px;  
+    visibility: hidden;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .result-display.visible {
+    visibility: visible;
+    border: 2px solid #00bfff;
+    background: #0a0a0a;
+  }
+  .result-label {
+    font-size: 18px;
+    margin-bottom: 6px;
+  }
+  .result-value {
+    font-size: 22px;
+    font-weight: 600;
+    color: #00bfff;
+    background: #000;
+    padding: 8px 18px;
+    border-radius: 8px;
+    border: 1px solid #00bfff;
+    margin-bottom: 10px;
+  }
+
+  /* Back and Next */
+  button#back-btn {
+    position: absolute; bottom: 15px; left: 15px;
+    background-color: #b30000;
+    border: 2px solid #ff0000; color: #fff;
+    border-radius: 8px; padding: 6px 14px;
+    font-weight: 600; font-size: 14px; cursor: pointer;
+  }
+  button#back-btn:hover { background-color: #ff0000; }
+
+  button#next-btn {
+    position: absolute; bottom: 15px; right: 15px;
+    background: linear-gradient(135deg, #00bfff, #0056b3);
+    color: #fff; border: 2px solid #00bfff;
+    border-radius: 12px; font-weight: 600; font-size: 20px;
+    padding: 10px 40px; cursor: not-allowed;
+    opacity: 0.6;
+  }
+  button#next-btn.enabled { cursor: pointer; opacity: 1; }
+  button#next-btn.enabled:hover {
+    background: linear-gradient(135deg, #0056b3, #00bfff);
+  }
+</style>
+</head>
+<body>
+
+<div class="fixed-size" role="main" aria-label="Oxygen Level Check">
+
+  <!-- Circle with Oxygen logo -->
+  <div class="logo-container">
+    🫁
+  </div>
+
+  <!-- Scrolling checking text -->
+  <div class="scrolling-heading" id="scrolling-heading">
+    <span class="scrolling-text">Oxygen Level Checking... Please wait.</span>
+  </div>
+
+  <button id="check-btn">Click to Check Oxygen Level</button>
+
+  <div class="result-display" id="result-display"></div>
+
+  <button id="back-btn" onclick="history.back()">Back</button>
+  <button id="next-btn" disabled>Next</button>
+</div>
+
+<script>
+  const checkBtn = document.getElementById('check-btn');
+  const resultDisplay = document.getElementById('result-display');
+  const scrollingHeading = document.getElementById('scrolling-heading');
+  const nextBtn = document.getElementById('next-btn');
+
+  checkBtn.addEventListener('click', () => {
+    scrollingHeading.style.display = 'block';
+    checkBtn.disabled = true;
+    checkBtn.textContent = "Checking...";
+    resultDisplay.classList.remove('visible');
+    resultDisplay.innerHTML = "";
+    nextBtn.disabled = true;
+    nextBtn.classList.remove('enabled');
+
+    setTimeout(() => {
+      scrollingHeading.style.display = 'none';
+      const oxygenLevel = (Math.random() * (100 - 90) + 90).toFixed(1); // %SpO2
+
+      resultDisplay.innerHTML = `
+        <div class="result-label">Your Oxygen Level is</div>
+        <div class="result-value">${oxygenLevel} %</div>
+      `;
+      resultDisplay.classList.add('visible');
+      checkBtn.disabled = false;
+      checkBtn.textContent = "Click to Check Oxygen Level";
+      nextBtn.disabled = false;
+      nextBtn.classList.add('enabled');
+    }, 3000); // 3 seconds for checking animation
+  });
+
+  nextBtn.addEventListener('click', () => {
+    if (!nextBtn.disabled) {
+      alert("Next button clicked. Connect to next page.");
+    }
+  });
+</script>
+
+</body>
+</html>

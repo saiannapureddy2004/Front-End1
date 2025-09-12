@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Thank You</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: #000;
+    font-family: 'Inter', sans-serif;
+    color: #e1e8f0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+
+  .fixed-size {
+    width: 21.5cm;
+    height: 13.5cm;
+    padding: 20px 25px;
+    background: #000;
+    border: 2px solid #fff;
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    user-select: none;
+    text-align: center;
+  }
+
+  .logo-container {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: white;
+    box-shadow: 0 4px 15px rgba(0, 191, 255, 0.3);
+    font-size: 80px; 
+    margin-bottom: 20px;
+  }
+
+  .logo-container img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+  }
+
+  h1 {
+    font-size: 32px;
+    color: #00bfff;
+    margin-bottom: 20px;
+  }
+
+  /* Rating stars left-to-right */
+  .rating-options {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+    flex-direction: row;
+  }
+  .rating-options input {
+    display: none;
+  }
+  .rating-options label {
+    font-size: 40px;
+    color: #444;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  .rating-options label.selected,
+  .rating-options label:hover,
+  .rating-options label:hover ~ label {
+    color: #f1ed16;
+  }
+
+  .note {
+    font-size: 16px;
+    color: #e1e8f0;
+  }
+</style>
+</head>
+<body>
+
+<div class="fixed-size">
+  <!-- Company Logo -->
+  <div class="logo-container">
+    <img src="logo.png" alt="Company Logo">
+  </div>
+
+  <h1>Thank You!</h1>
+  <p class="note">Please rate your experience:</p>
+
+  <!-- Rating options left-to-right -->
+  <div class="rating-options">
+    <label data-value="1">★</label>
+    <label data-value="2">★</label>
+    <label data-value="3">★</label>
+    <label data-value="4">★</label>
+    <label data-value="5">★</label>
+  </div>
+
+  <p class="note">Your feedback helps us improve!</p>
+</div>
+
+<script>
+  const stars = document.querySelectorAll('.rating-options label');
+  let selectedRating = 0;
+
+  stars.forEach((star, idx) => {
+    star.addEventListener('click', () => {
+      selectedRating = idx + 1; // rating from 1 to 5
+      updateStars(selectedRating);
+      console.log("Selected Rating:", selectedRating); // You can send this to backend
+    });
+
+    star.addEventListener('mouseover', () => {
+      updateStars(idx + 1);
+    });
+
+    star.addEventListener('mouseout', () => {
+      updateStars(selectedRating);
+    });
+  });
+
+  function updateStars(rating) {
+    stars.forEach((star, idx) => {
+      if (idx < rating) {
+        star.classList.add('selected');
+      } else {
+        star.classList.remove('selected');
+      }
+    });
+  }
+
+  // Automatically redirect or close after 15 seconds
+  setTimeout(() => {
+    alert("Thank you! Returning to main page."); 
+    // window.location.href = "mainpage.html";
+  }, 15000);
+</script>
+
+</body>
+</html>
+
